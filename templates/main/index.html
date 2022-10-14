@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>OBOI-777</title>
+</head>
+
+<body>
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand"> <b>{{ user }}</b>
+            <p>BAZA Oboi-777</p></a>
+        <a href="{% url 'logout' %}">
+            <button type="button" style="margin-left: 70rem;margin-top: -1rem" class="btn btn-dark brand">Log Out
+            </button>
+        </a>
+        <form method="post" action="{% url 'search' %}">
+            {% csrf_token %}
+            <input name="search" type="text" class="form-control p-3" placeholder="Raqam">
+            <button style="margin-top: -5.5rem;margin-left: 10rem;heigth: 10rem" type="submit"
+                    class="btn btn-primary px-4"><i class="bi bi-search"></i></button>
+        </form>
+
+    </div>
+</nav>
+<center>
+    {% if search %}
+        <h4>Sizning Qidiruvingiz: {{ search }}</h4>
+
+        <h3>Natijalar</h3>
+        <table class="table table-striped">
+
+        </table>
+
+        <div style="width: 25rem" class="container">
+            <div class="row mt-5">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col mt-5">#</th>
+                        <th scope="col mt-5">Seriya Raqam</th>
+                        <th scope="col mt-5">Minus Qilish</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in venues %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>{{ i.name }}</td>
+                            <td>
+                                <a href="{% url 'delete' i.id %}">
+                                    <button type="button" class="btn btn-outline-danger">{{ i.raqam }} Uchirish</button>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% else %}
+
+    {% endif %}
+
+</center>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>Vagon Raqami</label>
+                            {{ form.name }}
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Saqlash</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div style="margin-top: 10rem;" class="container">
+
+    <div class="row mt-5">
+        <table class="table">
+            <thead>
+            <tr>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"
+                        class="btn btn-success">+ Qushish
+                </button>
+                <th scope="col mt-5">#</th>
+                <th scope="col mt-5">Seriya Raqam</th>
+                <th scope="col mt-5">Minus Qilish</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in number %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ i.name }}</td>
+                    <td>
+                        <a href="{% url 'delete' i.id %}">
+                            <button type="button" class="btn btn-outline-danger">{{ i.name }} Del</button>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+</html>
